@@ -1,0 +1,79 @@
+package com.citycab.jasonparsingtextview;
+
+import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.TextView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+
+        String JSON_STRING = "{\"DSLR\":{\"Model\":\"Sony Alpha 58\",\"Sensor\":APC}}";
+        String model, sensor;
+        TextView Model, Sensor;
+        Model = (TextView) findViewById(R.id.model);
+        Sensor = (TextView) findViewById(R.id.sensor);
+
+        try {
+            // get JSONObject from JSON file
+            JSONObject obj = new JSONObject(JSON_STRING);
+            // fetch JSONObject named employee
+            JSONObject dslr = obj.getJSONObject("DSLR");
+            // get employee name and salary
+            model = dslr.getString("Model");
+            sensor = dslr.getString("Sensor");
+            // set employee name and salary in TextView's
+            Model.setText("Model: " + model);
+            Sensor.setText("Sensor: " + sensor);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+}
